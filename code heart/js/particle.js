@@ -246,4 +246,4 @@ function startAnimate() {
   }, 10);
 }
 
-startAnimate();
+// startAnimate();
