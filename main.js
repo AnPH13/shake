@@ -1,5 +1,6 @@
 window.onload = function () {
-
+    var anph = document.getElementById("anph13-activate");
+    var anphText = document.getElementById("anph13-h1");
     //create a new instance of shake.js.
     var myShakeEvent = new Shake({
         threshold: 15
@@ -15,6 +16,8 @@ window.onload = function () {
     function shakeEventDidOccur() {
 
         //put your own code here etc.
-        alert('Shake!');
+        anph.style.display = "block";
+        anphText.style.display = "none";
+        startAnimate();
     }
 };
