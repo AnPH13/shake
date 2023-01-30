@@ -24,7 +24,10 @@ window.onload = function () {
     if (location.protocol != "https:") {
         location.href = "https:" + window.location.href.substring(window.location.protocol.length);
     }
-    function permission() {
+
+    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
         if (typeof (DeviceMotionEvent) !== "undefined" && typeof (DeviceMotionEvent.requestPermission) === "function") {
             // (optional) Do something before API request prompt.
             DeviceMotionEvent.requestPermission()
@@ -65,10 +68,35 @@ window.onload = function () {
         } else {
             alert("DeviceMotionEvent is not defined");
         }
+    } else {
+        var sensitivity = 20;
+
+        // Position variables
+        var x1 = 0, y1 = 0, z1 = 0, x2 = 0, y2 = 0, z2 = 0;
+
+        // Listen to motion events and update the position
+        window.addEventListener('devicemotion', function (e) {
+            x1 = e.accelerationIncludingGravity.x;
+            y1 = e.accelerationIncludingGravity.y;
+            z1 = e.accelerationIncludingGravity.z;
+        }, false);
+
+        // Periodically check the position and fire
+        // if the change is greater than the sensitivity
+        setInterval(function () {
+            var change = Math.abs(x1 - x2 + y1 - y2 + z1 - z2);
+
+            if (change > sensitivity) {
+                anph.style.display = "block";
+                anphText.style.display = "none";
+                startAnimate();
+            }
+
+            // Update new position
+            x2 = x1;
+            y2 = y1;
+            z2 = z1;
+        }, 150);
     }
-    const btn = document.getElementById("request");
-    btn.addEventListener("click", permission);
-
-
 
 };
