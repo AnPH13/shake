@@ -2,18 +2,25 @@ function getMobileOperatingSystem() {
     var anph = document.getElementById("anph13-activate");
     var anphText = document.getElementById("anph13-h1");
 
-    if (location.protocol != "https:") {
-        location.href = "https:" + window.location.href.substring(window.location.protocol.length);
-    }
+    
 
     var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
     // iOS detection from: http://stackoverflow.com/a/9039885/177710
     if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        permission()
+        permission();
         return 0;
     }
 
+    shakeNew();
+
+    
+}
+
+function shakeNew(){
+    if (location.protocol != "https:") {
+        location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+    }
     var myShakeEvent = new Shake({
         threshold: 15
     });
@@ -32,8 +39,6 @@ function getMobileOperatingSystem() {
         anphText.style.display = "none";
         startAnimate();
     }
-
-    return 0;
 }
 
 
@@ -44,24 +49,7 @@ function permission() {
             .then(response => {
                 // (optional) Do something after API prompt dismissed.
                 if (response == "granted") {
-                    var myShakeEvent = new Shake({
-                        threshold: 15
-                    });
-
-                    // start listening to device motion
-                    myShakeEvent.start();
-
-                    // register a shake event
-                    window.addEventListener('shake', shakeEventDidOccur, false);
-
-                    //shake event callback
-                    function shakeEventDidOccur() {
-
-                        //put your own code here etc.
-                        anph.style.display = "block";
-                        anphText.style.display = "none";
-                        startAnimate();
-                    }
+                    shakeNew();
 
                 }
             })
