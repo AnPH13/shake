@@ -1,4 +1,5 @@
 window.onload = function () {
+    var container = document.getElementById("container-app");
     var anph = document.getElementById("anph13-activate");
     var anphText = document.getElementById("anph13-h1");
     var btnPermission = document.getElementById("permission");
@@ -34,6 +35,7 @@ window.onload = function () {
         btn.addEventListener("click", permission);
     }
     else{
+        container.style.display = "flex";
         var myShakeEvent = new Shake({
             threshold: 15
         });
