@@ -11,39 +11,43 @@ function getMobileOperatingSystem() {
     // iOS detection from: http://stackoverflow.com/a/9039885/177710
     if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
         alert("IOS")
-        if (typeof (DeviceMotionEvent) !== "undefined" && typeof (DeviceMotionEvent.requestPermission) === "function") {
-            // (optional) Do something before API request prompt.
-            DeviceMotionEvent.requestPermission()
-                .then(response => {
-                    // (optional) Do something after API prompt dismissed.
-                    if (response == "granted") {
-                        alert("IOS pass")
-                        var myShakeEvent = new Shake({
-                            threshold: 15
-                        });
-                    
-                        // start listening to device motion
-                        myShakeEvent.start();
-                    
-                        // register a shake event
-                        window.addEventListener('shake', shakeEventDidOccur, false);
-                    
-                        //shake event callback
-                        function shakeEventDidOccur() {
-                    
-                            //put your own code here etc.
-                            anph.style.display = "block";
-                            anphText.style.display = "none";
-                            startAnimate();
-                            alert("on shake");
+        function permission() {
+            if (typeof (DeviceMotionEvent) !== "undefined" && typeof (DeviceMotionEvent.requestPermission) === "function") {
+                // (optional) Do something before API request prompt.
+                DeviceMotionEvent.requestPermission()
+                    .then(response => {
+                        // (optional) Do something after API prompt dismissed.
+                        if (response == "granted") {
+                            var myShakeEvent = new Shake({
+                                threshold: 15
+                            });
+                            // start listening to device motion
+                            myShakeEvent.start();
+
+                            // register a shake event
+                            window.addEventListener('shake', shakeEventDidOccur, false);
+
+                            //shake event callback
+                            function shakeEventDidOccur() {
+
+                                //put your own code here etc.
+                                anph.style.display = "block";
+                                anphText.style.display = "none";
+                                startAnimate();
+                            }
+
                         }
-                    }
-                })
-                .catch(console.error)
+                    })
+                    .catch(console.error)
+            } else {
+                alert("DeviceMotionEvent is not defined");
+            }
         }
-        return;
+        const btn = document.getElementById("request");
+        btn.addEventListener("click", permission);
+        btn.click()
     }
-    
+
     var myShakeEvent = new Shake({
         threshold: 15
     });
@@ -63,12 +67,12 @@ function getMobileOperatingSystem() {
         startAnimate();
     }
 
-    
+
 }
 
-function shakeNew(){
-    
-    
+function shakeNew() {
+
+
 }
 
 
@@ -84,7 +88,7 @@ function permission() {
                 }
             })
             .catch(console.error)
-    } 
+    }
 }
 
 
