@@ -10,6 +10,9 @@ function getMobileOperatingSystem() {
     if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
         
         if(permission()){
+            if (location.protocol != "https:") {
+                location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+            }
             var myShakeEvent = new Shake({
                 threshold: 15
             });
