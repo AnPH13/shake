@@ -26,8 +26,12 @@ html, body {
     /* display: none; */
 }
 
+#permission{
+    line-height: 1.8em;
+    color: black;
+}
+
 #request{
-    width: 100px;
-    height: 100px;
-    background-color: #ffff;
+    background-color: rgb(56, 60, 250);
+    color: #fff;
 }
