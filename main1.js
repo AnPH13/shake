@@ -8,22 +8,32 @@ function getMobileOperatingSystem() {
 
     // iOS detection from: http://stackoverflow.com/a/9039885/177710
     if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        if (location.protocol != "https:") {
-            location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+        
+        if(permission()){
+            var myShakeEvent = new Shake({
+                threshold: 15
+            });
+        
+            // start listening to device motion
+            myShakeEvent.start();
+        
+            // register a shake event
+            window.addEventListener('shake', shakeEventDidOccur, false);
+        
+            //shake event callback
+            function shakeEventDidOccur() {
+        
+                //put your own code here etc.
+                anph.style.display = "block";
+                anphText.style.display = "none";
+                startAnimate();
+            }
         }
-        permission();
         return 0;
     }
     if (location.protocol != "https:") {
         location.href = "https:" + window.location.href.substring(window.location.protocol.length);
     }
-    shakeNew();
-
-    
-}
-
-function shakeNew(){
-    
     var myShakeEvent = new Shake({
         threshold: 15
     });
@@ -42,6 +52,13 @@ function shakeNew(){
         anphText.style.display = "none";
         startAnimate();
     }
+
+    
+}
+
+function shakeNew(){
+    
+    
 }
 
 
@@ -52,13 +69,13 @@ function permission() {
             .then(response => {
                 // (optional) Do something after API prompt dismissed.
                 if (response == "granted") {
-                    shakeNew();
+                    return true;
 
                 }
             })
             .catch(console.error)
     } else {
-        alert("DeviceMotionEvent is not defined");
+       return false;
     }
 }
 
