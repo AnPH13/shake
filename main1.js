@@ -8,19 +8,22 @@ function getMobileOperatingSystem() {
 
     // iOS detection from: http://stackoverflow.com/a/9039885/177710
     if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        if (location.protocol != "https:") {
+            location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+        }
         permission();
         return 0;
     }
-
+    if (location.protocol != "https:") {
+        location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+    }
     shakeNew();
 
     
 }
 
 function shakeNew(){
-    if (location.protocol != "https:") {
-        location.href = "https:" + window.location.href.substring(window.location.protocol.length);
-    }
+    
     var myShakeEvent = new Shake({
         threshold: 15
     });
